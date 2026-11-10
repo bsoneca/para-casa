@@ -2,7 +2,7 @@
 
 **Aponte o seu Claude Desktop para esta URL e seja feliz com para casas sem computador.**
 
-Abra o app Claude, vá na aba **Code** e cole:
+Abra o app Claude ([baixe aqui](https://claude.ai/download), para Windows e Mac), vá na aba **Code** e cole:
 
 ```
 Instale o skill https://github.com/bsoneca/para-casa
