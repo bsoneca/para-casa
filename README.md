@@ -27,7 +27,13 @@ rode comandos:
 
 1. `git clone https://github.com/bsoneca/para-casa.git ~/.claude/skills/para-casa`
    (se a pasta já existir, `git -C ~/.claude/skills/para-casa pull`).
-2. `cd ~/.claude/skills/para-casa && python3 -m venv .venv && .venv/bin/pip install pypdf pypdfium2 pillow reportlab`
+2. Crie a `.venv` nessa pasta e instale `pypdf pypdfium2 pillow reportlab`:
+   no macOS/Linux `python3 -m venv .venv && .venv/bin/pip install ...`; no
+   Windows `py -3 -m venv .venv` (ou `python -m venv .venv`) e
+   `.venv/Scripts/pip.exe install ...`. Sem Python no Windows, peça para a
+   pessoa instalar pela Microsoft Store ou por python.org.
+   Sem `git`, baixe `https://github.com/bsoneca/para-casa/archive/refs/heads/main.zip`
+   e extraia em `~/.claude/skills/para-casa`.
 3. Veja se a extensão Claude in Chrome está conectada. Se não estiver, explique
    como instalá-la no Chrome e que o filho precisa estar logado no AVA nesse
    Chrome, com a conta Google da escola.
@@ -38,12 +44,12 @@ rode comandos:
 
 ## Do que precisa
 
-- Um Mac com o [Claude Code](https://claude.com/claude-code) (o app Claude para
-  desktop, aba Code, ou o `claude` no terminal).
+- Um computador com Windows ou Mac e o [Claude Code](https://claude.com/claude-code)
+  (o app Claude para desktop, aba Code, ou o `claude` no terminal).
 - Google Chrome com a extensão **Claude in Chrome**, e o filho com o login do
   AVA feito nesse Chrome (a conta Google da escola).
-- Python 3 (já vem no macOS).
-- Uma impressora configurada no Mac, se quiser imprimir direto.
+- Python 3 (já vem no macOS; no Windows, instale pela Microsoft Store ou por python.org).
+- Uma impressora configurada no computador, se quiser imprimir direto.
 
 ## Instalar à mão
 
@@ -51,8 +57,16 @@ rode comandos:
 git clone https://github.com/bsoneca/para-casa.git ~/.claude/skills/para-casa
 ```
 
+No Mac:
+
 ```bash
 cd ~/.claude/skills/para-casa && python3 -m venv .venv && .venv/bin/pip install pypdf pypdfium2 pillow reportlab
+```
+
+No Windows (PowerShell):
+
+```powershell
+cd ~\.claude\skills\para-casa; py -3 -m venv .venv; .venv\Scripts\pip.exe install pypdf pypdfium2 pillow reportlab
 ```
 
 Na primeira vez que você pedir o para casa, o Claude pergunta o nome, a turma e
@@ -82,7 +96,7 @@ entre com a conta dele.
 | `SKILL.md` | As instruções que o Claude segue. |
 | `fetch.js` | Roda na aba do AVA e lê os eventos do calendário. |
 | `template.html` | O layout de impressão (A4). |
-| `render.sh` | Transforma o HTML em PDF com o Chrome. |
+| `render.py` | Transforma o HTML em PDF com o Chrome ou o Edge. |
 | `montar.py` | Junta as partes com as páginas das apostilas e numera. |
 | `kids.example.json` | O formato do `kids.json`. |
 

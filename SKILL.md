@@ -15,9 +15,15 @@ Arquivos desta pasta (`~/.claude/skills/para-casa/`):
   `kids.example.json` mostra o formato.
 - `fetch.js` — roda dentro da aba do AVA e devolve o aluno logado e os eventos
   de amanhã até o próximo dia letivo, com o texto completo.
-- `template.html` — o layout de impressão (A4). `render.sh` — HTML → PDF.
+- `template.html` — o layout de impressão (A4). `render.py` — HTML → PDF com o
+  Chrome ou o Edge.
 - `montar.py` — junta as partes com páginas das apostilas; `--achar` localiza
-  uma atividade na apostila. Roda com `.venv/bin/python -I` (pypdf, pypdfium2).
+  uma atividade na apostila.
+
+Os scripts Python rodam com o Python da `.venv` desta pasta, chamado aqui de
+`PY`: `.venv/bin/python -I` no macOS e no Linux, `.venv/Scripts/python.exe -I`
+no Windows. Os caminhos com `~` são a pasta do usuário (`%USERPROFILE%` no
+Windows).
 
 Antes de começar:
 - Se `kids.json` não existir, é a primeira vez: copie `kids.example.json` para
@@ -27,7 +33,11 @@ Antes de começar:
 - O AVA abre no Chrome do usuário (Claude in Chrome), onde ele já entrou. Se
   `list_connected_browsers` não mostrar navegador, peça para reconectar a
   extensão; não use o navegador do app (lá não há login).
-- Se a `.venv` sumir: `python3 -m venv .venv && .venv/bin/pip install pypdf pypdfium2 pillow reportlab`.
+- Se a `.venv` sumir, recrie nesta pasta: `python3 -m venv .venv` (no Windows,
+  `py -3 -m venv .venv` ou `python -m venv .venv`) e instale com o pip dela
+  (`.venv/bin/pip` ou `.venv/Scripts/pip.exe`): `pypdf pypdfium2 pillow reportlab`.
+  Sem Python no Windows, peça ao usuário para instalar (Microsoft Store ou
+  python.org).
 - O filtro do Claude in Chrome bloqueia saídas com URLs com query string
   ("Cookie/query string data"). No JS, troque URLs por `[link]` ou corte o `?…`
   antes de devolver o texto.
@@ -90,7 +100,7 @@ Antes de começar:
    o arquivo em `~/Downloads` e em `~/Documents` (o Chrome pode salvar em
    qualquer um) e copie para `<out>/apostilas/` com o id do `url` no nome.
    O número impresso na apostila não é o do PDF. Ache a página com
-   `.venv/bin/python -I montar.py --achar <apostila.pdf> "ATIVIDADE 36"`, que
+   `PY montar.py --achar <apostila.pdf> "ATIVIDADE 36"`, que
    mostra os dois números. Leia o texto da atividade e das páginas de teoria
    logo antes dela. Páginas que são só imagem, renderize com pypdfium2 da `.venv`
    e leia a imagem. Imprima a página da atividade e as páginas de teoria que ela usa.
@@ -128,9 +138,9 @@ Antes de começar:
    tarefa seguinte fica num arquivo próprio (com `style="break-before:auto"` na
    seção). O comentário no topo do template contém `<section class="tarefa">`:
    ao cortar ou montar HTML por texto, procure depois de `<body>`.
-   Rode `render.sh <html> <parte.pdf>` em cada um e junte tudo, com as
+   Rode `PY render.py <html> <parte.pdf>` em cada um e junte tudo, com as
    páginas da apostila logo depois da sua tarefa:
-   `.venv/bin/python -I montar.py "<out>/AAAA-MM-DD Nome.pdf" parte1.pdf "<apostila.pdf>:56-57,60" parte2.pdf`
+   `PY montar.py "<out>/AAAA-MM-DD Nome.pdf" parte1.pdf "<apostila.pdf>:56-57,60" parte2.pdf`
    (data de hoje, `out` expandido, páginas do PDF). Use o `montar.py` mesmo
    quando houver uma parte só: é ele que numera as páginas ("Nome · página N de T"). Confira as páginas
    renderizando com pypdfium2 e mostre ao usuário com `SendUserFile`.
@@ -141,12 +151,20 @@ Antes de começar:
 ## Imprimir
 
 Depois de mostrar o PDF, pergunte se deve imprimir. Com o sim, mande para a
-impressora padrão do Mac:
+impressora padrão.
+
+**Windows:** `powershell -NoProfile -Command "Start-Process -FilePath '<out>\AAAA-MM-DD Nome.pdf' -Verb Print"`.
+Se o leitor de PDF padrão abrir o arquivo em vez de imprimir (o Edge faz isso),
+diga ao usuário para apertar Ctrl+P nessa janela. Se nenhum programa abrir PDF,
+use `Start-Process` sem `-Verb Print` e peça o Ctrl+P. Para ver a fila:
+`powershell -NoProfile -Command "Get-PrintJob -PrinterName (Get-CimInstance Win32_Printer -Filter 'Default=TRUE').Name"`.
+
+**macOS:**
 `lp -o media=A4 -o fit-to-page "<out>/AAAA-MM-DD Nome.pdf"`. Depois rode `lpstat -o` e informe o trabalho na fila. Se `lpstat -d` disser
 que não há impressora padrão, peça ao usuário para adicioná-la em Ajustes do
 Sistema → Impressoras e Scanners; não instale drivers.
 
-Se o trabalho ficar em "Sending data to printer" por mais de 1 minuto, veja o
+No macOS, se o trabalho ficar em "Sending data to printer" por mais de 1 minuto, veja o
 alerta em `lpstat -l -p` e conte ao usuário o que ele diz. Nas Epson da linha
 EcoTank (ex.: L3250), os alertas comuns são:
 - `com.epson.ER01_003-error`: a impressora está com um erro no painel. Peça ao
