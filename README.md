@@ -1,5 +1,17 @@
 # Para Casa
 
+**Aponte o seu Claude Desktop para esta URL e seja feliz com para casas sem computador.**
+
+Abra o app Claude, vá na aba **Code** e cole:
+
+```
+Instale o skill https://github.com/bsoneca/para-casa
+```
+
+Depois é só pedir "faz o para casa da Ana".
+
+---
+
 Um skill do [Claude Code](https://claude.com/claude-code) que lê o para casa no
 AVA da Escola Balão Vermelho e monta um PDF para imprimir: o enunciado do
 professor, as páginas da apostila, uma explicação curta do tema e exercícios
@@ -7,6 +19,22 @@ extras. A criança faz tudo no papel, sem computador.
 
 O skill nunca escreve as respostas: a explicação dá a teoria e uma forma de
 pensar, e os exercícios extras pedem para aplicar, comparar e argumentar.
+
+## Para o Claude: como instalar
+
+Quando alguém pedir para instalar este skill, faça isto, sem pedir que a pessoa
+rode comandos:
+
+1. `git clone https://github.com/bsoneca/para-casa.git ~/.claude/skills/para-casa`
+   (se a pasta já existir, `git -C ~/.claude/skills/para-casa pull`).
+2. `cd ~/.claude/skills/para-casa && python3 -m venv .venv && .venv/bin/pip install pypdf pypdfium2 pillow reportlab`
+3. Veja se a extensão Claude in Chrome está conectada. Se não estiver, explique
+   como instalá-la no Chrome e que o filho precisa estar logado no AVA nesse
+   Chrome, com a conta Google da escola.
+4. Pergunte o nome, a turma e o nível (🟡 Amarelo, 🔵 Azul, ⚪ Branco) de cada
+   filho e crie `kids.json` a partir de `kids.example.json` (`userid` em `null`).
+5. Diga que está pronto: é só pedir "faz o para casa da <nome>" ou `/para-casa <nome>`.
+   (Se o `/para-casa` não aparecer, abra uma sessão nova para o skill carregar.)
 
 ## Do que precisa
 
@@ -17,7 +45,7 @@ pensar, e os exercícios extras pedem para aplicar, comparar e argumentar.
 - Python 3 (já vem no macOS).
 - Uma impressora configurada no Mac, se quiser imprimir direto.
 
-## Instalar
+## Instalar à mão
 
 ```bash
 git clone https://github.com/bsoneca/para-casa.git ~/.claude/skills/para-casa
