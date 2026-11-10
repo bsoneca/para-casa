@@ -1,0 +1,13 @@
+{
+  "days": 1,
+  "out": "~/Documents/Para Casa",
+  "kids": [
+    {
+      "name": "Nome Completo do Filho",
+      "short": "Apelido",
+      "userid": null,
+      "turma": "7º ano – 7A",
+      "nivel": "Amarelo"
+    }
+  ]
+}

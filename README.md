@@ -1,0 +1,65 @@
+# Para Casa
+
+Um skill do [Claude Code](https://claude.com/claude-code) que lê o para casa no
+AVA da Escola Balão Vermelho e monta um PDF para imprimir: o enunciado do
+professor, as páginas da apostila, uma explicação curta do tema e exercícios
+extras. A criança faz tudo no papel, sem computador.
+
+O skill nunca escreve as respostas: a explicação dá a teoria e uma forma de
+pensar, e os exercícios extras pedem para aplicar, comparar e argumentar.
+
+## Do que precisa
+
+- Um Mac com o [Claude Code](https://claude.com/claude-code) (o app Claude para
+  desktop, aba Code, ou o `claude` no terminal).
+- Google Chrome com a extensão **Claude in Chrome**, e o filho com o login do
+  AVA feito nesse Chrome (a conta Google da escola).
+- Python 3 (já vem no macOS).
+- Uma impressora configurada no Mac, se quiser imprimir direto.
+
+## Instalar
+
+```bash
+git clone https://github.com/bsoneca/para-casa.git ~/.claude/skills/para-casa
+```
+
+```bash
+cd ~/.claude/skills/para-casa && python3 -m venv .venv && .venv/bin/pip install pypdf pypdfium2 pillow reportlab
+```
+
+Na primeira vez que você pedir o para casa, o Claude pergunta o nome, a turma e
+o nível (🟡 Amarelo, 🔵 Azul, ⚪ Branco) de cada filho e cria o `kids.json`.
+Esse arquivo fica só no seu computador e nunca vai para o repositório. Se
+preferir, copie `kids.example.json` para `kids.json` e preencha você mesmo.
+
+## Usar
+
+No Claude Code, digite:
+
+```
+/para-casa Ana
+```
+
+ou peça "faz o para casa da Ana". O Claude abre o AVA no seu Chrome, lê as
+tarefas do próximo dia letivo, baixa as apostilas, gera o PDF em
+`~/Documents/Para Casa/` e pergunta se deve imprimir.
+
+O Chrome guarda uma conta do AVA por vez: para o próximo filho, saia do AVA e
+entre com a conta dele.
+
+## Arquivos
+
+| Arquivo | O que faz |
+|---|---|
+| `SKILL.md` | As instruções que o Claude segue. |
+| `fetch.js` | Roda na aba do AVA e lê os eventos do calendário. |
+| `template.html` | O layout de impressão (A4). |
+| `render.sh` | Transforma o HTML em PDF com o Chrome. |
+| `montar.py` | Junta as partes com as páginas das apostilas e numera. |
+| `kids.example.json` | O formato do `kids.json`. |
+
+## Outras escolas
+
+O AVA da Balão Vermelho é um Moodle. Para outra escola com Moodle, troque o
+endereço do AVA no `SKILL.md` e confira como as tarefas e apostilas aparecem
+lá.
