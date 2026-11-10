@@ -8,7 +8,7 @@ Abra o app Claude, vá na aba **Code** e cole:
 Instale o skill https://github.com/bsoneca/para-casa
 ```
 
-Depois é só pedir "faz o para casa da Ana".
+Depois é só pedir "faz o para casa da Ana", e seguir as instruções do Claude.
 
 ---
 
